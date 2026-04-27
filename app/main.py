@@ -10,10 +10,20 @@ from app.services.scoring import calculate_scores
 
 from app.services.ai_service import generate_explanation
 
-from fastapi.middleware.cors import CORSMiddleware
-
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 from app.database import SessionLocal
 from app.models import Brand, Laptop, LaptopSpecs, ProductListing
 
@@ -57,10 +67,7 @@ def seed_data():
 seed_data()
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"]
-)
+
 
 # -------------------------
 # DB Dependency
