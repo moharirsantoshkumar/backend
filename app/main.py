@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 from fastapi import FastAPI, Depends
+from app.database import Base, engine
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
@@ -12,6 +13,7 @@ from app.services.ai_service import generate_explanation
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+Base.metadata.create_all(bind=engine)
 
 
 app.add_middleware(
