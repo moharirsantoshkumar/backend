@@ -14,6 +14,47 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
+from app.database import SessionLocal
+from app.models import Brand, Laptop, LaptopSpecs, ProductListing
+
+def seed_data():
+    db = SessionLocal()
+
+    if db.query(Laptop).first():
+        db.close()
+        return  # already has data
+
+    brand1 = Brand(name="Asus")
+    brand2 = Brand(name="HP")
+    brand3 = Brand(name="Lenovo")
+
+    db.add_all([brand1, brand2, brand3])
+    db.commit()
+
+    laptop1 = Laptop(name="Asus Vivobook 15", brand_id=brand1.id, average_rating=4.1)
+    laptop2 = Laptop(name="HP Pavilion 14", brand_id=brand2.id, average_rating=4.2)
+    laptop3 = Laptop(name="Lenovo ThinkPad E14", brand_id=brand3.id, average_rating=4.6)
+
+    db.add_all([laptop1, laptop2, laptop3])
+    db.commit()
+
+    specs1 = LaptopSpecs(laptop_id=laptop1.id, processor="Intel i5 12th Gen", ram_gb=16, battery_hours=7)
+    specs2 = LaptopSpecs(laptop_id=laptop2.id, processor="Intel i5 12th Gen", ram_gb=8, battery_hours=8)
+    specs3 = LaptopSpecs(laptop_id=laptop3.id, processor="Intel i7 12th Gen", ram_gb=16, battery_hours=10)
+
+    db.add_all([specs1, specs2, specs3])
+    db.commit()
+
+    listing1 = ProductListing(laptop_id=laptop1.id, retailer="Amazon", price=55000)
+    listing2 = ProductListing(laptop_id=laptop2.id, retailer="Flipkart", price=60000)
+    listing3 = ProductListing(laptop_id=laptop3.id, retailer="Amazon", price=78000)
+
+    db.add_all([listing1, listing2, listing3])
+    db.commit()
+
+    db.close()
+
+seed_data()
 
 
 app.add_middleware(
