@@ -46,12 +46,14 @@ def calculate_scores(products, weights):
         ram_s = min(p["ram_gb"] / 32, 1)
 
         performance_s = (cpu_s + ram_s) / 2
+        eco_s = 1
 
         final_score = (
-            weights["price"] * price_s +
-            weights["performance"] * performance_s +
-            weights["battery"] * battery_s +
-            weights["rating"] * rating_s
+            weights.get("price", 0) * price_s +
+            weights.get("performance", 0) * performance_s +
+            weights.get("battery", 0) * battery_s +
+            weights.get("rating", 0) * rating_s +
+            weights.get("eco", 0) * eco_s   # if you compute eco_s
         )
 
         p["score"] = round(final_score, 4)

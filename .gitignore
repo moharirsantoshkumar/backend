@@ -1,0 +1,10 @@
+# Environment
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+.next/

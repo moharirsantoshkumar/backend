@@ -10,10 +10,12 @@ from app.services.scoring import calculate_scores
 
 from app.services.ai_service import generate_explanation
 
-app = FastAPI()
-Base.metadata.create_all(bind=engine)
+
 
 from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+Base.metadata.create_all(bind=engine)
 
 app.add_middleware(
     CORSMiddleware,
@@ -97,13 +99,16 @@ def get_recommendations(preferences: dict, db: Session = Depends(get_db)):
     # Fetch products
     products = fetch_laptop_data(db)
 
-    # Default weights
-    weights = preferences.get("weights", {
-        "price": 0.4,
-        "performance": 0.3,
-        "battery": 0.2,
-        "rating": 0.1
-    })
+    incoming = preferences.get("weights", {})
+
+    # 🔁 Map UI → backend keys
+    weights = {
+        "price": incoming.get("Price sensitivity", 0.4),
+        "battery": incoming.get("Delivery speed", 0.2),
+        "performance": incoming.get("Brand trust", 0.3),
+        "rating": incoming.get("Review depth", 0.1),
+        "eco": incoming.get("Sustainability", 0)
+    }
 
     # Score products
     scored = calculate_scores(products, weights)
