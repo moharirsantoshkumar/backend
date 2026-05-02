@@ -96,9 +96,13 @@ def root():
 @app.post("/recommendations")
 def get_recommendations(preferences: dict, db: Session = Depends(get_db)):
 
-    # Fetch products
-    products = fetch_laptop_data(db)
-
+    # Fetch products based on category
+    category = preferences.get("category", "laptops")
+    if category == "laptops":
+        products = fetch_laptop_data(db)
+    else:
+        # fallback (for now)
+        products = fetch_laptop_data(db)
     incoming = preferences.get("weights", {})
 
     # 🔁 Map UI → backend keys
@@ -168,6 +172,7 @@ def get_recommendations(preferences: dict, db: Session = Depends(get_db)):
     # Final Response
     # -------------------------
     return {
+        "category": category,
         "top_recommendation": best,
         "alternatives": alternatives
     }
