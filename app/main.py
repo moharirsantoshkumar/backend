@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.services.product_service import fetch_laptop_data
 from app.services.scoring import calculate_scores
+from app.services.mobile_service import fetch_mobile_data
 
 from app.services.ai_service import generate_explanation
 
@@ -98,10 +99,12 @@ def get_recommendations(preferences: dict, db: Session = Depends(get_db)):
 
     # Fetch products based on category
     category = preferences.get("category", "laptops")
+
     if category == "laptops":
         products = fetch_laptop_data(db)
+    elif category == "mobiles":
+        products = fetch_mobile_data(db)
     else:
-        # fallback (for now)
         products = fetch_laptop_data(db)
     incoming = preferences.get("weights", {})
 
