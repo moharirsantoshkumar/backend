@@ -23,6 +23,7 @@ def fetch_external_products(category):
             "id": item.get("id"),
             "name": item.get("title"),
             "image": item.get("thumbnail"),
+            "brand": item.get("brand", ""),
             "price": item.get("price", 0),
             "rating": item.get("rating", 0),
             "battery_hours": 12,
