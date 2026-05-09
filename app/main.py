@@ -10,6 +10,7 @@ from app.services.scoring import calculate_scores
 from app.services.mobile_service import fetch_mobile_data
 
 from app.services.ai_service import generate_explanation
+from app.services.external_api_service import fetch_external_products
 
 
 
@@ -100,12 +101,11 @@ def get_recommendations(preferences: dict, db: Session = Depends(get_db)):
     # Fetch products based on category
     category = preferences.get("category", "laptops")
 
-    if category == "laptops":
-        products = fetch_laptop_data(db)
-    elif category == "mobiles":
-        products = fetch_mobile_data(db)
+    if category in ["laptops", "mobiles"]:
+        products = fetch_external_products(category)
     else:
         products = fetch_laptop_data(db)
+
     incoming = preferences.get("weights", {})
 
     # 🔁 Map UI → backend keys

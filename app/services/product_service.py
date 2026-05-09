@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from app import models
+from app.services.normalizer import normalize_product
 
 def fetch_laptop_data(db: Session):
     """
@@ -25,14 +26,16 @@ def fetch_laptop_data(db: Session):
     products = []
 
     for r in results:
-        products.append({
-        "id": r.id,
-        "name": r.name,
-        "price": int(r.price) if r.price else 0,
-        "battery_hours": r.battery_hours or 0,
-        "rating": r.average_rating or 0,
-        "processor": r.processor or "",
-        "ram_gb": r.ram_gb or 0
-        })
+        products.append(
+            normalize_product({
+                "id": r.id,
+                "name": r.name,
+                "price": int(r.price) if r.price else 0,
+                "battery_hours": r.battery_hours or 0,
+                "rating": r.average_rating or 0,
+                "processor": r.processor or "",
+                "ram_gb": r.ram_gb or 0
+            }, "laptops")
+        )
 
     return products
