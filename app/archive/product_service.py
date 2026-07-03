@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app import models
+from app.archive import models
 from app.services.normalizer import normalize_product
 
 def fetch_laptop_data(db: Session):
