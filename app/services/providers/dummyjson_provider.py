@@ -11,18 +11,30 @@ def get_prices(product: Dict) -> List[Dict]:
 
     return [
         {
-            "store": "Amazon",
+            "retailer": "Amazon",
             "price": round(base * 0.98, 2),
-            "url": "#"
+            "currency": "USD",
+            "product_url": "#",
+            "in_stock": True,
+            "delivery_days": 2,
+            "seller": "Amazon"
         },
         {
-            "store": "Flipkart",
+            "retailer": "Flipkart",
             "price": round(base * 1.01, 2),
-            "url": "#"
+            "currency": "USD",
+            "product_url": "#",
+            "in_stock": True,
+            "delivery_days": 3,
+            "seller": "Retail Partner"
         },
         {
-            "store": "Croma",
+            "retailer": "Croma",
             "price": round(base * 1.03, 2),
-            "url": "#"
+            "currency": "USD",
+            "product_url": "#",
+            "in_stock": False,
+            "delivery_days": None,
+            "seller": "Croma"
         }
     ]

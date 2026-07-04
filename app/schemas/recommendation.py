@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Dict, List, Optional
+from app.schemas.retailer import RetailerPrice
 
 
 class RecommendationRequest(BaseModel):
@@ -12,10 +13,7 @@ class Decision(BaseModel):
     tradeoff: str
     best_for: str
 
-class Retailer(BaseModel):
-    store: str
-    price: float
-    url: str
+
 
 class Product(BaseModel):
     id: int
@@ -29,7 +27,7 @@ class Product(BaseModel):
     ram_gb: int
     score: float
     pricing: Pricing | None = None
-    retailers: list[Retailer] = []
+    retailers: list[RetailerPrice] = []
     verdict: Optional[str] = None
     explanation: Optional[str] = None
     decision_summary: Optional[str] = None
@@ -45,6 +43,9 @@ class Pricing(BaseModel):
     market_average: float
     potential_savings: float
     buy_recommendation: str
+    confidence: str
+    price_last_updated: str
+    price_status: str
 
 class RecommendationResponse(BaseModel):
     category: str
