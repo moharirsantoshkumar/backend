@@ -46,6 +46,7 @@ class Pricing(BaseModel):
     confidence: str
     price_last_updated: str
     price_status: str
+    retailer_reason: str
 
 class RecommendationResponse(BaseModel):
     category: str

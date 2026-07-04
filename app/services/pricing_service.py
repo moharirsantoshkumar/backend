@@ -9,6 +9,12 @@ def enrich_with_pricing(product: dict):
 
     cheapest = min(retailer_prices, key=lambda x: x["price"])
 
+    fastest = min(
+        [r for r in retailer_prices if r["in_stock"]],
+        key=lambda x: x["delivery_days"],
+        default=cheapest,
+    )
+
     market_average = round(
         sum(x["price"] for x in retailer_prices) / len(retailer_prices),
         2,
@@ -41,6 +47,10 @@ def enrich_with_pricing(product: dict):
         confidence="High",
         price_last_updated=datetime.utcnow().isoformat(),
         price_status=status,
+        retailer_reason=(
+            f"{cheapest['retailer']} offers the lowest price "
+            f"and delivery in {fastest['delivery_days']} day(s)."
+        ),
     )
 
     product["pricing"] = pricing
