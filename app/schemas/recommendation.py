@@ -47,6 +47,13 @@ class Pricing(BaseModel):
     price_last_updated: str
     price_status: str
     retailer_reason: str
+    price_trend: str | None = None
+    lowest_price: float | None = None
+    highest_price: float | None = None
+    average_price: float | None = None
+    predicted_price: float | None = None
+    recommended_action: str | None = None
+    estimated_wait_savings: float | None = None
 
 class RecommendationResponse(BaseModel):
     category: str

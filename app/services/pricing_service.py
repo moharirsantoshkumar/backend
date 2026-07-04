@@ -2,6 +2,7 @@ from typing import Dict
 from app.services.retailer_service import get_retailer_prices
 from app.schemas.recommendation import Pricing
 from datetime import datetime
+from app.services.price_history_service import build_price_intelligence
 
 def enrich_with_pricing(product: dict):
 
@@ -33,6 +34,8 @@ def enrich_with_pricing(product: dict):
     else:
         status = "Market Price"
 
+    price_data = build_price_intelligence(product)
+
     pricing = Pricing(
         source="Retail Intelligence",
         currency="USD",
@@ -51,9 +54,20 @@ def enrich_with_pricing(product: dict):
             f"{cheapest['retailer']} offers the lowest price "
             f"and delivery in {fastest['delivery_days']} day(s)."
         ),
+        price_trend=price_data.price_trend,
+        lowest_price=price_data.lowest_price,
+        highest_price=price_data.highest_price,
+        average_price=price_data.average_price,
+        predicted_price=price_data.predicted_price,
+        recommended_action=price_data.recommended_action,
+        estimated_wait_savings=price_data.estimated_wait_savings,
     )
 
     product["pricing"] = pricing
+    product["price_history"] = [
+        point.model_dump()
+        for point in price_data.price_history
+    ]
     product["retailers"] = retailer_prices
 
     return product
