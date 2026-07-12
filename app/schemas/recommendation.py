@@ -4,6 +4,7 @@ from app.schemas.retailer import RetailerPrice
 from app.schemas.confidence import Confidence
 from app.schemas.retailer_intelligence import RetailerIntelligence
 from app.schemas.advisor import BuyingAdvisor
+from app.schemas.consensus import Consensus
 
 class RecommendationRequest(BaseModel):
     category: str = "laptops"
@@ -35,6 +36,7 @@ class Product(BaseModel):
     confidence: Confidence | None = None
     best_for: Optional[str] = None
     advisor: BuyingAdvisor | None = None
+    consensus: Consensus | None = None
 
 class Pricing(BaseModel):
     source: str
