@@ -3,6 +3,7 @@ from typing import Dict, List, Optional
 from app.schemas.retailer import RetailerPrice
 from app.schemas.confidence import Confidence
 from app.schemas.retailer_intelligence import RetailerIntelligence
+from app.schemas.advisor import BuyingAdvisor
 
 class RecommendationRequest(BaseModel):
     category: str = "laptops"
@@ -33,6 +34,7 @@ class Product(BaseModel):
     tradeoff_vs_next: Optional[str] = None
     confidence: Confidence | None = None
     best_for: Optional[str] = None
+    advisor: BuyingAdvisor | None = None
 
 class Pricing(BaseModel):
     source: str

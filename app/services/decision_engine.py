@@ -3,9 +3,8 @@ from app.services.external_api_service import fetch_external_products
 from app.services.pricing_service import enrich_with_pricing
 from app.services.scoring import calculate_scores
 from app.services.mobile_service import fetch_mobile_data
-from app.services.pricing_service import enrich_with_pricing
 from app.services.response_builder import build_response
-from app.services.confidence_service import calculate_confidence
+from app.services.product_enrichment_service import enrich_product
 
 def generate_recommendations(preferences: dict):
     # Fetch products based on category
@@ -47,8 +46,7 @@ def generate_recommendations(preferences: dict):
     for p in top_products:
         p["explanation"] = generate_explanation(p, weights)
     for p in top_products:
-        enrich_with_pricing(p)
-        p["confidence"] = calculate_confidence(p)
+        enrich_product(p)
     
     # -------------------------
     # Comparison Logic
