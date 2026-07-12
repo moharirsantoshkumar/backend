@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from typing import Dict, List, Optional
 from app.schemas.retailer import RetailerPrice
 from app.schemas.confidence import Confidence
+from app.schemas.retailer_intelligence import RetailerIntelligence
 
 class RecommendationRequest(BaseModel):
     category: str = "laptops"
@@ -25,6 +26,7 @@ class Product(BaseModel):
     score: float
     pricing: Pricing | None = None
     retailers: list[RetailerPrice] = []
+    retailer_intelligence: RetailerIntelligence | None = None
     verdict: Optional[str] = None
     explanation: Optional[str] = None
     decision_summary: Optional[str] = None

@@ -3,6 +3,7 @@ from app.services.retailer_service import get_retailer_prices
 from app.schemas.recommendation import Pricing
 from datetime import datetime
 from app.services.price_history_service import build_price_intelligence
+from app.services.retailer_intelligence_service import analyze_retailers
 
 def enrich_with_pricing(product: dict):
 
@@ -69,5 +70,6 @@ def enrich_with_pricing(product: dict):
         for point in price_data.price_history
     ]
     product["retailers"] = retailer_prices
+    product["retailer_intelligence"] = analyze_retailers(product)
 
     return product
