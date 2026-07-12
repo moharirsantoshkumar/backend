@@ -5,6 +5,7 @@ from app.services.scoring import calculate_scores
 from app.services.mobile_service import fetch_mobile_data
 from app.services.pricing_service import enrich_with_pricing
 from app.services.response_builder import build_response
+from app.services.confidence_service import calculate_confidence
 
 def generate_recommendations(preferences: dict):
     # Fetch products based on category
@@ -47,6 +48,7 @@ def generate_recommendations(preferences: dict):
         p["explanation"] = generate_explanation(p, weights)
     for p in top_products:
         enrich_with_pricing(p)
+        p["confidence"] = calculate_confidence(p)
     
     # -------------------------
     # Comparison Logic
@@ -67,12 +69,12 @@ def generate_recommendations(preferences: dict):
         # Confidence logic
         score_gap = best["score"] - second["score"]
 
-        if score_gap > 0.1:
-            best["confidence"] = "High"
-        elif score_gap > 0.05:
-            best["confidence"] = "Medium"
-        else:
-            best["confidence"] = "Low"
+        # if score_gap > 0.1:
+        #     best["confidence"] = second["confidence"]
+        # elif score_gap > 0.05:
+        #     best["confidence"] = second["confidence"]
+        # else:
+        #     best["confidence"] = second["confidence"]
 
     # -------------------------
     # Best For Tag

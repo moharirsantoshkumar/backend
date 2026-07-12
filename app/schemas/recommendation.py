@@ -1,19 +1,16 @@
 from pydantic import BaseModel
 from typing import Dict, List, Optional
 from app.schemas.retailer import RetailerPrice
-
+from app.schemas.confidence import Confidence
 
 class RecommendationRequest(BaseModel):
     category: str = "laptops"
     weights: Dict[str, float]
 
 class Decision(BaseModel):
-    confidence: str
     summary: str
     tradeoff: str
     best_for: str
-
-
 
 class Product(BaseModel):
     id: int
@@ -32,7 +29,7 @@ class Product(BaseModel):
     explanation: Optional[str] = None
     decision_summary: Optional[str] = None
     tradeoff_vs_next: Optional[str] = None
-    confidence: Optional[str] = None
+    confidence: Confidence | None = None
     best_for: Optional[str] = None
 
 class Pricing(BaseModel):
